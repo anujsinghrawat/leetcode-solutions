@@ -35,6 +35,28 @@ public:
         return dp[index][target]=inc or exc;
     }
     
+    bool solveTab(int N,int arr[],int total){
+        vector<vector<int>> dp(N+1,vector<int> (total+1,0));
+        for(int i=0;i<=N;i++)
+        {
+            dp[i][0]=1;
+        }
+        
+        for(int index=N-1;index>=0;index--){
+            for(int target= 0;target<= total/2;target++)
+            {
+                bool inc =0;
+                if(target-arr[index]>=0)
+                    inc= dp[index+1][target-arr[index]];
+                    
+                bool exc = dp[index+1][target-0];
+        
+                dp[index][target]=inc or exc;
+            }
+        }
+        return dp[0][total/2];
+    }
+    
     int equalPartition(int N, int arr[])
     {
         int tot=0;
@@ -44,8 +66,9 @@ public:
         if(tot&1) return 0;
         int target=tot/2;
         // code here
-        vector<vector<int>> dp(N,vector<int> (target+1,-1));
-        return solveMem(0,arr,N,target,dp);
+        // vector<vector<int>> dp(N,vector<int> (target+1,-1));
+        // return solveMem(0,arr,N,target,dp);
+        return solveTab(N,arr,tot);
     }
 };
 
