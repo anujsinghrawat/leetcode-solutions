@@ -36,25 +36,26 @@ public:
     }
     
     bool solveTab(int N,int arr[],int total){
-        vector<vector<int>> dp(N+1,vector<int> (total+1,0));
-        for(int i=0;i<=N;i++)
-        {
-            dp[i][0]=1;
-        }
+        // vector<vector<int>> dp(N+1,vector<int> (total+1,0));
+        vector<int> curr(total+1,0);
+        vector<int> next(total+1,0);
+        curr[0]=1,next[0]=1;
         
         for(int index=N-1;index>=0;index--){
             for(int target= 0;target<= total/2;target++)
             {
                 bool inc =0;
                 if(target-arr[index]>=0)
-                    inc= dp[index+1][target-arr[index]];
+                    inc= next[target-arr[index]];
                     
-                bool exc = dp[index+1][target-0];
+                bool exc = next[target-0];
         
-                dp[index][target]=inc or exc;
+                curr[target]=inc or exc;
             }
+            next=curr;
         }
-        return dp[0][total/2];
+        
+        return next[total/2];
     }
     
     int equalPartition(int N, int arr[])
